@@ -2,12 +2,13 @@ import { useQuery, useRealm, Realm } from "@realm/react";
 import Task from "../data/model/Task";
 import { Button, FlatList, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
 import { useState } from "react";
-
-export default function HomeScreen() {
+import { useCounterStore } from "../counter.store";
+import { observer } from 'mobx-react-lite';
+const HomeScreen = observer(() => {
     const realm = useRealm();
     const tasks = useQuery(Task);
     const [newDescription, setNewDescription] = useState("");
-
+    const { count, increment, decrement } = useCounterStore();
     const addTask = () => {
         if (newDescription.trim()) {
             realm.write(() => {
@@ -48,6 +49,12 @@ export default function HomeScreen() {
                 <Button title="Save" onPress={addTask} />
             </View>
 
+            <View>
+                <Text>{`Clicked ${count} times!`}</Text>
+                <Button title="Increment" onPress={increment} />
+                <Button title="Decrement" onPress={decrement} />
+            </View>
+
 
             <FlatList
                 data={tasks}
@@ -70,7 +77,7 @@ export default function HomeScreen() {
 
         </SafeAreaView >
     )
-}
+});
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
@@ -120,3 +127,5 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     }
 })
+
+export default HomeScreen;

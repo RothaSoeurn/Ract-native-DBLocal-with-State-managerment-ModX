@@ -4,6 +4,9 @@ import { Button, FlatList, Pressable, SafeAreaView, StyleSheet, Text, TextInput,
 import { useState } from "react";
 import { useCounterStore } from "../counter.store";
 import { observer } from 'mobx-react-lite';
+import { v4 as uuidv4 } from 'uuid';
+
+
 const HomeScreen = observer(() => {
     const realm = useRealm();
     const tasks = useQuery(Task);
@@ -13,7 +16,7 @@ const HomeScreen = observer(() => {
         if (newDescription.trim()) {
             realm.write(() => {
                 realm.create(Task, {
-                    _id: new Realm.BSON.ObjectId(),
+                    _id: uuidv4(),
                     description: newDescription,
                     isCompleted: false,
                     createdAt: new Date(),
@@ -58,7 +61,7 @@ const HomeScreen = observer(() => {
 
             <FlatList
                 data={tasks}
-                keyExtractor={(item) => item._id.toHexString()}
+                keyExtractor={(item) => item._id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.renderView}>
                         <Text style={styles.renderItem}>{item.description}</Text>

@@ -5,9 +5,9 @@ import { CounterStoreContext, counterStore } from "./counter.store";
 export default function App() {
   return (
     <RealmProvider schema={[Task]}>
-      {/* <CounterStoreContext.Provider value={counterStore}> */}
-      <HomeScreen />
-      {/* </CounterStoreContext.Provider> */}
+      <CounterStoreContext.Provider value={counterStore}> */
+        <HomeScreen />
+      </CounterStoreContext.Provider>
     </RealmProvider>
   );
 }
